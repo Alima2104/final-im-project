@@ -6,8 +6,9 @@ int distance;
 void setup() {
 pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
 pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+pinMode(A0, INPUT);
 Serial.begin(9600); // Starts the serial communication
-Serial.println("0");
+Serial.println("0,0");
 }
 void loop() {
 // Clears the trigPin
@@ -24,10 +25,15 @@ distance= duration*0.034/2;
 // Prints the distance on the Serial Monitor
 //Serial.print("Distance: ");
 //Serial.println(distance);
-while (Serial.available()) { //whenever there is anything available in serial buffer, do
+//int intensity = analogRead(A0); 
+//rSerial.println(intensity);
+while (Serial.available()>0) { //whenever there is anything available in serial buffer, do
     if (Serial.read() == '\n') { //whenever there is new line, it means that all info came correctly
+      int intensity = analogRead(A0); 
       delay(1);
-      Serial.println(distance); //send info to the processing
+      Serial.print(distance); //send info to the processing
+      Serial.print(',');
+      Serial.println(intensity);
     }
   }
 }
